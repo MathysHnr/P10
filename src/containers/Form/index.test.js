@@ -22,8 +22,10 @@ describe("When Events is created", () => {
         })
       );
       await screen.findByText("En cours");
-      // Utilisation de waitFor pour tester fonction asynchrone
-      await waitFor(() => screen.findByText("Envoyer"), { timeout: 2000 });
+      // On attend que le "Message envoyé" apparaisse
+      await waitFor(() => screen.findByText("Message envoyé !"), {
+        timeout: 2000,
+      });
       expect(onSuccess).toHaveBeenCalled();
     });
   });
