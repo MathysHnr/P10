@@ -17,10 +17,10 @@ const Slider = () => {
   const nextCard = () => {
     setTimeout(
       /*
-        Suppression de l'élément "undefined" en ajoutant -1 à la taille du tableau
-        Un tableau commence toujours à 0 !
+        Suppression de l'élément "undefined" en ajoutant +1 à index
+        Ajout de "?" pour vérifier que byDateDesc existe
       */
-      () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0),
+      () => setIndex(index + 1 < byDateDesc?.length ? index + 1 : 0),
       5000
     );
   };
@@ -29,13 +29,11 @@ const Slider = () => {
   });
   return (
     <div className="SlideCardList">
+      {/* Suppresion des <></> qui encapsulait 2 éléments différents */}
       {byDateDesc?.map((event, idx) => (
-        <div>
+        // Changement de la key pour qu'elle soit unique pour chaque slide
+        <div key={event.date}>
           <div
-            /*
-              Modification de key pour que chaque image est un ID unique
-            */
-            key={event.id}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -54,13 +52,15 @@ const Slider = () => {
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+                  key={_.date}
                   type="radio"
                   name="radio-button"
                   /*
                     Remplacement de idx par index pour indiquer sur quelle image on se trouve 
                   */
                   checked={index === radioIdx}
+                  // Ajout de readOnly pour retirer erreur console
+                  readOnly
                 />
               ))}
             </div>
